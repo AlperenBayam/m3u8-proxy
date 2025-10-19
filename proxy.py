@@ -149,12 +149,14 @@ def proxy():
         
         content = re.sub(r'(\S+\.m3u8)(?:\?[^#\s]*)?', replace_m3u8, content)
         
-        # Resim dosyalarını ORİJİNAL hâlinde bırak
+        # Resim dosyalarını PROXY URL'lerine çevir
         def replace_img(match):
             img_url = match.group(1)
             if not img_url.startswith('http'):
                 img_url = resolve_url(img_url, base_url)
-            return img_url
+            # Proxy URL'ine çevir
+            proxy_url = f"{request.url_root}?src={img_url}"
+            return proxy_url
         
         content = re.sub(r'(\S+\.(jpg|jpeg|png|webp|gif))(?:\?[^#\s]*)?', replace_img, content)
         
