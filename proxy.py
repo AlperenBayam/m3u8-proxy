@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import requests
 import re
-import os
 import time
 import logging
 from urllib.parse import urlparse
