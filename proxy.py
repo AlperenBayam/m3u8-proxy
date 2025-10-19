@@ -172,12 +172,6 @@ def proxy():
                 'Cache-Control': 'no-cache, no-store, must-revalidate',
                 'Pragma': 'no-cache',
                 'Expires': '0',
-                'Content-Disposition': 'inline',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, HEAD',
-                'Access-Control-Allow-Headers': 'Content-Type, Range, Accept-Encoding',
-                'Access-Control-Expose-Headers': 'Content-Length, Content-Range',
-                'Access-Control-Allow-Credentials': 'true',
                 'Content-Type': 'application/vnd.apple.mpegurl'
             }
         )
@@ -189,12 +183,7 @@ def proxy():
             mimetype=content_type if content_type else 'application/octet-stream',
             headers={
                 'Content-Length': str(len(content)),
-                'Cache-Control': 'public, max-age=3600',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, HEAD',
-                'Access-Control-Allow-Headers': 'Content-Type, Range, Accept-Encoding',
-                'Access-Control-Expose-Headers': 'Content-Length, Content-Range',
-                'Access-Control-Allow-Credentials': 'true'
+                'Cache-Control': 'public, max-age=3600'
             }
         )
         return response
