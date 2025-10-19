@@ -149,12 +149,14 @@ def proxy():
         
         content = re.sub(r'(\S+\.m3u8)(?:\?[^#\s]*)?', replace_m3u8, content)
         
-        # Resim dosyalarını ORİJİNAL hâlinde bırak
+        # Resim dosyalarını PROXY URL'lerine çevir
         def replace_img(match):
             img_url = match.group(1)
             if not img_url.startswith('http'):
                 img_url = resolve_url(img_url, base_url)
-            return img_url
+            # Proxy URL'ine çevir
+            proxy_url = f"{request.url_root}?src={img_url}"
+            return proxy_url
         
         content = re.sub(r'(\S+\.(jpg|jpeg|png|webp|gif))(?:\?[^#\s]*)?', replace_img, content)
         
@@ -172,7 +174,8 @@ def proxy():
                 'Cache-Control': 'no-cache, no-store, must-revalidate',
                 'Pragma': 'no-cache',
                 'Expires': '0',
-                'Content-Type': 'application/vnd.apple.mpegurl'
+                'Content-Type': 'application/vnd.apple.mpegurl',
+                'Accept-Ranges': 'bytes'
             }
         )
         return response
@@ -192,10 +195,11 @@ def proxy():
 def after_request(response):
     # CORS header'larını SADECE BURADA ekleyin
     response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,Range,Accept-Encoding')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,Range,Accept-Encoding,X-Requested-With')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD')
-    response.headers.add('Access-Control-Expose-Headers', 'Content-Length,Content-Range')
+    response.headers.add('Access-Control-Expose-Headers', 'Content-Length,Content-Range,Accept-Ranges')
     response.headers.add('Access-Control-Allow-Credentials', 'true')
+    response.headers.add('Access-Control-Max-Age', '86400')
     return response
 
 @app.route('/', methods=['OPTIONS'])
