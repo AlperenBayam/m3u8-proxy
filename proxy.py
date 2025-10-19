@@ -119,12 +119,19 @@ def proxy():
         def replace_m3u8(match):
             return resolve_url(match.group(1), base_url)
 
+        def replace_img(match):
+            img_url = match.group(1)
+            if not img_url.startswith('http'):
+                img_url = resolve_url(img_url, base_url)
+            return f"{request.url_root}?src={img_url}"
+
         def replace_key(match):
             key_url = resolve_url(match.group(1), base_url)
             return match.group(0).replace(match.group(1), key_url)
 
         content = re.sub(r'(\S+\.ts)(?:\?[^#\s]*)?', replace_ts, content)
         content = re.sub(r'(\S+\.m3u8)(?:\?[^#\s]*)?', replace_m3u8, content)
+        content = re.sub(r'(\S+\.(jpg|jpeg|png|webp|gif))(?:\?[^#\s]*)?', replace_img, content)
         content = re.sub(r'#EXT-X-KEY:.*URI="([^"]+)"', replace_key, content)
 
         return Response(
