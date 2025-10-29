@@ -1,0 +1,9 @@
+#EXTM3U
+#EXTINF:-1 group-title="Dengetv67",Yayinzirve
+#EXTVLCOPT:http-user-agent=Mozilla/5.0
+#EXTVLCOPT:http-referrer=https://dengetv67.live/
+https://yildiz.zirvedesin25.sbs/yayinzirve.m3u8
+#EXTINF:-1 group-title="Dengetv67",Yayinzirve
+#EXTVLCOPT:http-user-agent=Mozilla/5.0
+#EXTVLCOPT:http-referrer=https://dengetv67.live/
+https://yildiz.zirvedesin25.sbs/yayinb2.m3u8
